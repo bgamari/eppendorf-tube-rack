@@ -16,6 +16,22 @@ module tube_grid(spacing, tube_diam, nrows, ncols) {
     for (j = [0:nrows-1])
     translate([i*spacing, j*spacing, 0])
     cylinder(r=tube_diam/2, h=2*rack_h);
+
+    // Column labels
+    color("red")
+    translate([0, 0, rack_h-text_h])
+    for (i = [0:ncols-1])
+    translate([i*spacing, 0, 0])
+    linear_extrude(2*text_h)
+    scale(0.4) text(text=str(i));
+
+    // Row labels
+    color("red")
+    translate([0, spacing, rack_h-text_h])
+    for (i = [0:nrows-1])
+    translate([0, i*spacing, 0])
+    linear_extrude(2*text_h)
+    scale(0.4) text(text=chr(65+i));
 }
     
 module rack(ncols, nrows, height) {
@@ -37,26 +53,10 @@ module rack(ncols, nrows, height) {
 	translate([border, border, 0])
 	tube_grid(tube_spacing, tube_a_diam, nrows, ncols);
 
-	translate([0, 0, rack_h-2])
-	scale([1,1,-1])
-	translate([border - tube_spacing/2, border - tube_spacing/2, 0])
-	tube_grid(tube_spacing, tube_b_diam, nrows+1, ncols+1);
-
-	// Column labels
-	color("red")
-	translate([tube_spacing/5, border, rack_h-text_h])
-	for (i = [0:ncols-1])
-	translate([i*tube_spacing, 0, 0])
-	linear_extrude(2*text_h)
-	scale(0.4) text(text=str(i));
-
-	// Row labels
-	color("red")
-	translate([border, tube_spacing*(1 + 1/5), rack_h-text_h])
-	for (i = [0:nrows-1])
-	translate([0, i*tube_spacing, 0])
-	linear_extrude(2*text_h)
-	scale(0.4) text(text=chr(65+i));
+	translate([0, body_size[1], rack_h-2])
+	rotate([180, 0, 0])
+	translate([border + tube_spacing/2, border + tube_spacing/2, 0])
+	tube_grid(tube_spacing, tube_b_diam, nrows-1, ncols-1);
     }
 }
 
@@ -72,5 +72,5 @@ module handle_profile(size) {
     }
 }
 
-rack(ncols, nrows, rack_h, $fn=40);
+rack(ncols, nrows, rack_h, $fn=16);
 //handle_profile(15);
