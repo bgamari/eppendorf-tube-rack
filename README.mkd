@@ -1,0 +1,10 @@
+# Eppendorf tube rack
+
+This is a printable design for a rack for 600uL and 1mL Eppendorf tubes common
+found in biology labs.
+
+Rendering this requires a rather recent OpenSCAD version due to the use of
+`text`.
+
+![Tube rack](rack.png)
+
