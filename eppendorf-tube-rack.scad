@@ -10,12 +10,17 @@ rack_h = 1*inch;
 border = 0.2*inch;
 text_h = 1;
 
-module tube_grid(spacing, tube_diam, nrows, ncols) {
+module tube_grid(spacing, tube_diam, nrows, ncols, bottom_curvature=10) {
     translate([spacing/2, spacing/2, 2])
     for (i = [0:ncols-1])
     for (j = [0:nrows-1])
-    translate([i*spacing, j*spacing, 0])
-    cylinder(r=tube_diam/2, h=2*rack_h);
+    translate([i*spacing, j*spacing, 0]) {
+	translate([0, 0, bottom_curvature])
+	scale([1,1, bottom_curvature / (tube_diam/2)])
+	sphere(r=tube_diam/2);
+	translate([0, 0, bottom_curvature])
+	cylinder(r=tube_diam/2, h=2*rack_h);
+    }
 
     translate([0, 0, rack_h]) {
 	// Column labels
