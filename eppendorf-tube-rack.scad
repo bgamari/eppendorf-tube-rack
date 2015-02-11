@@ -9,6 +9,7 @@ nrows = 6;
 rack_h = 1*inch;
 border = 0.2*inch;
 text_h = 1;
+label_size = 7;
 
 module tube_grid(spacing, tube_diam, nrows, ncols, bottom_curvature=10) {
     translate([spacing/2, spacing/2, 2])
@@ -27,13 +28,13 @@ module tube_grid(spacing, tube_diam, nrows, ncols, bottom_curvature=10) {
 	for (i = [0:ncols-1])
 	translate([(i+0.8)*spacing, 0, 0])
 	linear_extrude(2*text_h, center=true)
-	scale(0.4) text(text=str(i));
+	text(text=str(i), size=label_size);
 
 	// Row labels
 	for (i = [0:nrows-1])
-	translate([0, i*spacing, 0])
+	translate([-2, i*spacing - 3, 0])
 	linear_extrude(2*text_h, center=true)
-	scale(0.4) text(text=chr(65+i));
+	text(text=chr(65+i), size=label_size);
     }
 }
     
